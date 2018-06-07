@@ -31,6 +31,10 @@ data['question']['header'] = soup.find(id="question-header").h1.string
 contents = soup.select('#question .post-text')[0]
 data['question']['desc'] = extractString(contents).strip()
 
+# extract question upvotes
+upvotes = soup.select('#question .vote-count-post')[0].string
+data['question']['upvotes'] = upvotes
+
 # extract answers
 answers = soup.select('.answer')
 for answer in answers:
