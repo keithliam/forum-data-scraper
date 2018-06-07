@@ -15,7 +15,7 @@ def extractString(contents):
 	return string
 
 # get user-details class from question-class
-def getUserDetailsClass(questionClass):
+def getAuthorUserDetailsClass(questionClass):
 	if questionClass.find(attrs={'class':'owner'}) == None:
 		return questionClass.select('.user-info .user-details a:nth-of-type(2)')[0]
 	else:
