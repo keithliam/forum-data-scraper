@@ -21,6 +21,16 @@ def getUserDetailsClass(questionClass):
 	else:
 		return questionClass.select('.owner .user-info .user-details')[0]
 
+def getNameFromUserDetails(userDetailsClass):
+	if type(userDetailsClass) == list:
+		return None
+	elif type(userDetailsClass.contents[0]) == str:
+		return userDetailsClass.contents[0].strip()
+	elif userDetailsClass.contents[1].name == 'a':
+		return userDetailsClass.contents[1].string.strip()
+	else:
+		return userDetailsClass.contents[0].strip()
+
 # extract author from user-details class
 def extractAuthor(questionClass):
 	userDetailsClass = getUserDetailsClass(questionClass)
@@ -31,10 +41,22 @@ def extractAuthor(questionClass):
 	else:
 		return userDetailsClass.contents[0].strip()
 
+def getEditorUserDetailsClass(questionClass):
+	if questionClass.select(".post-signature .user-details")[0].a != None:
+		return questionClass.select(".post-signature .user-details")[0]
+	else:
+		return None
+
+def extractEditor(questionClass):
+	userDetailsClass = getEditorUserDetailsClass(questionClass)
+	if userDetailsClass != None:
+		return getNameFromUserDetails(userDetailsClass)
+	else:
+		return None
 
 # url = 'https://stackoverflow.com/questions/927358/how-to-undo-the-most-recent-commits-in-git'
-# url = 'https://stackoverflow.com/questions/959215/how-do-i-remove-leading-whitespace-in-python?noredirect=1&lq=1'
-url = 'https://stackoverflow.com/questions/761804/how-do-i-trim-whitespace-from-a-python-string'
+url = 'https://stackoverflow.com/questions/959215/how-do-i-remove-leading-whitespace-in-python?noredirect=1&lq=1'
+# url = 'https://stackoverflow.com/questions/761804/how-do-i-trim-whitespace-from-a-python-string'
 
 html = urllib.request.urlopen(url)
 index = html.read().decode('utf-8')
@@ -58,6 +80,11 @@ data['question']['upvotes'] = upvotes
 # extract question author
 author = extractAuthor(soup.select('#question')[0])
 data['question']['author'] = author
+
+# extract question editor
+editor = extractEditor(soup.select('#question')[0])
+if editor != None:
+	data['question']['editor'] = editor
 
 # extract answers
 answers = soup.select('.answer')
