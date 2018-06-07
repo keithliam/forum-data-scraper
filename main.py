@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 from bs4.element import Tag
 import urllib.request
 
+# extract strings within a tag
 def extractString(contents):
 	string = ''
 	for item in contents.contents:
@@ -23,11 +24,14 @@ data = {}
 data['question'] = {}
 data['answer'] = []
 
+# extract question header
 data['question']['header'] = soup.find(id="question-header").h1.string
 
+# extract question description
 contents = soup.select('#question .post-text')[0]
 data['question']['desc'] = extractString(contents).strip()
 
+# extract answers
 answers = soup.select('.answer')
 for answer in answers:
 	contents = answer.select('.post-text')[0]
