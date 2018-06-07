@@ -102,8 +102,19 @@ for answer in answers:
 	# answer author
 	author = extractAuthor(answer, isAnswer=True)
 
-	data['answer'].append({
-		'string':	string,
-		'upvotes':	upvotes,
-		'author':	author
-	})
+	# answer editor
+	editor = extractEditor(answer)
+
+	if editor is None:
+		data['answer'].append({
+			'string':	string,
+			'upvotes':	upvotes,
+			'author':	author
+		})
+	else:
+		data['answer'].append({
+			'string':	string,
+			'upvotes':	upvotes,
+			'author':	author,
+			'editor': 	editor
+		})
