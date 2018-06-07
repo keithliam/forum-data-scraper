@@ -22,7 +22,7 @@ def getUserDetailsClass(questionClass):
 		return questionClass.select('.owner .user-info .user-details')[0]
 
 def getNameFromUserDetails(userDetailsClass):
-	if type(userDetailsClass.contents[0]) == str:
+	if len(userDetailsClass.contents) == 1:
 		return userDetailsClass.contents[0].strip()
 	elif userDetailsClass.contents[1].name == 'a':
 		return userDetailsClass.contents[1].string.strip()
@@ -32,12 +32,7 @@ def getNameFromUserDetails(userDetailsClass):
 # extract author from user-details class
 def extractAuthor(questionClass):
 	userDetailsClass = getUserDetailsClass(questionClass)
-	if len(userDetailsClass.contents) == 1:
-		return userDetailsClass.contents[0].strip()
-	elif userDetailsClass.contents[1].name == 'a':
-		return userDetailsClass.contents[1].string.strip()
-	else:
-		return userDetailsClass.contents[0].strip()
+	return getNameFromUserDetails(userDetailsClass)
 
 def getEditorUserDetailsClass(questionClass):
 	if questionClass.select(".post-signature .user-details")[0].a != None:
