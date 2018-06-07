@@ -31,7 +31,7 @@ def getNameFromUserDetails(userDetailsClass):
 
 # extract author from user-details class
 def extractAuthor(questionClass):
-	userDetailsClass = getUserDetailsClass(questionClass)
+	userDetailsClass = getAuthorUserDetailsClass(questionClass)
 	return getNameFromUserDetails(userDetailsClass)
 
 def getEditorUserDetailsClass(questionClass):
