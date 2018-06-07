@@ -82,6 +82,14 @@ if editor != None:
 # extract answers
 answers = soup.select('.answer')
 for answer in answers:
+	# answer message
 	contents = answer.select('.post-text')[0]
 	string = extractString(contents).strip()
-	data['answer'].append(string)
+
+	# answer upvotes
+	upvotes = answer.select('.vote-count-post')[0].string
+
+	data['answer'].append({
+		'string':	string,
+		'upvotes':	upvotes
+	})
