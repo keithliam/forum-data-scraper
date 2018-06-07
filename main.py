@@ -35,6 +35,10 @@ data['question']['desc'] = extractString(contents).strip()
 upvotes = soup.select('#question .vote-count-post')[0].string
 data['question']['upvotes'] = upvotes
 
+# extract question author
+author = soup.select('#question .user-info .user-details a:nth-of-type(2)')[0].string
+data['question']['author'] = author
+
 # extract answers
 answers = soup.select('.answer')
 for answer in answers:
