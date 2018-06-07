@@ -89,7 +89,11 @@ for answer in answers:
 	# answer upvotes
 	upvotes = answer.select('.vote-count-post')[0].string
 
+	# answer author
+	author = extractAuthor(answer)
+
 	data['answer'].append({
 		'string':	string,
-		'upvotes':	upvotes
+		'upvotes':	upvotes,
+		'author':	author
 	})
