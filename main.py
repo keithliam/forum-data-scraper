@@ -15,7 +15,9 @@ def extractString(contents):
 	return string
 
 # get user-details class from question-class
-def getAuthorUserDetailsClass(questionClass):
+def getAuthorUserDetailsClass(questionClass, isAnswer):
+	if isAnswer:
+		return questionClass.select('.user-info .user-details')[0]
 	if questionClass.find(attrs={'class':'owner'}) == None:
 		return questionClass.select('.user-info .user-details a:nth-of-type(2)')[0]
 	else:
@@ -30,8 +32,8 @@ def getNameFromUserDetails(userDetailsClass):
 		return userDetailsClass.contents[0].strip()
 
 # extract author from user-details class
-def extractAuthor(questionClass):
-	userDetailsClass = getAuthorUserDetailsClass(questionClass)
+def extractAuthor(questionClass, isAnswer=False):
+	userDetailsClass = getAuthorUserDetailsClass(questionClass, isAnswer)
 	return getNameFromUserDetails(userDetailsClass)
 
 def getEditorUserDetailsClass(questionClass):
@@ -90,7 +92,7 @@ for answer in answers:
 	upvotes = answer.select('.vote-count-post')[0].string
 
 	# answer author
-	author = extractAuthor(answer)
+	author = extractAuthor(answer, isAnswer=True)
 
 	data['answer'].append({
 		'string':	string,
