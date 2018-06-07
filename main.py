@@ -78,7 +78,7 @@ data['question']['desc'] = extractString(contents).strip()
 
 # extract question upvotes
 upvotes = soup.select('#question .vote-count-post')[0].string
-data['question']['upvotes'] = upvotes
+data['question']['upvotes'] = int(upvotes)
 
 # extract question author
 author = extractAuthor(soup.select('#question')[0])
@@ -108,13 +108,13 @@ for answer in answers:
 	if editor is None:
 		data['answer'].append({
 			'string':	string,
-			'upvotes':	upvotes,
+			'upvotes':	int(upvotes),
 			'author':	author
 		})
 	else:
 		data['answer'].append({
 			'string':	string,
-			'upvotes':	upvotes,
+			'upvotes':	int(upvotes),
 			'author':	author,
 			'editor': 	editor
 		})
