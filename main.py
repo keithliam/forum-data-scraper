@@ -1,5 +1,17 @@
 from bs4 import BeautifulSoup
+from bs4.element import Tag
 import urllib.request
+
+def extractString(contents):
+	string = ''
+	for item in contents.contents:
+		if type(item) == Tag:
+			if item.name == 'p':
+				string += '\n'
+			string += extractString(item) 			
+		else:
+			string += item
+	return string
 
 url = 'https://stackoverflow.com/questions/927358/how-to-undo-the-most-recent-commits-in-git'
 
