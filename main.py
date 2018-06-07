@@ -17,7 +17,13 @@ def extractString(contents):
 # get user-details class from question-class
 def getAuthorUserDetailsClass(questionClass, isAnswer):
 	if isAnswer:
-		return questionClass.select('.user-info .user-details')[0]
+		count = len(questionClass.select('.user-info .user-details'))
+		if count == 2:
+			return questionClass.select('.user-info .user-details')[1]
+		if count == 3:
+			return questionClass.select('.user-info .user-details')[2].contents[1]
+		else: 
+			return questionClass.select('.user-info .user-details')[0]
 	if questionClass.find(attrs={'class':'owner'}) == None:
 		return questionClass.select('.user-info .user-details a:nth-of-type(2)')[0]
 	else:
@@ -28,6 +34,8 @@ def getNameFromUserDetails(userDetailsClass):
 		return userDetailsClass.contents[0].strip()
 	elif userDetailsClass.contents[1].name == 'a':
 		return userDetailsClass.contents[1].string.strip()
+	elif len(userDetailsClass.contents) > 2:
+		return userDetailsClass.contents[2].string.strip()
 	else:
 		return userDetailsClass.contents[0].strip()
 
