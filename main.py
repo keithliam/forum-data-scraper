@@ -22,9 +22,7 @@ def getUserDetailsClass(questionClass):
 		return questionClass.select('.owner .user-info .user-details')[0]
 
 def getNameFromUserDetails(userDetailsClass):
-	if type(userDetailsClass) == list:
-		return None
-	elif type(userDetailsClass.contents[0]) == str:
+	if type(userDetailsClass.contents[0]) == str:
 		return userDetailsClass.contents[0].strip()
 	elif userDetailsClass.contents[1].name == 'a':
 		return userDetailsClass.contents[1].string.strip()
