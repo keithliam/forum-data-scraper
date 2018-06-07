@@ -107,13 +107,13 @@ for answer in answers:
 
 	if editor is None:
 		data['answer'].append({
-			'string':	string,
+			'answer':	string,
 			'upvotes':	int(upvotes),
 			'author':	author
 		})
 	else:
 		data['answer'].append({
-			'string':	string,
+			'answer':	string,
 			'upvotes':	int(upvotes),
 			'author':	author,
 			'editor': 	editor
