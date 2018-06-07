@@ -32,7 +32,9 @@ def extractAuthor(questionClass):
 		return userDetailsClass.contents[0].strip()
 
 
-url = 'https://stackoverflow.com/questions/927358/how-to-undo-the-most-recent-commits-in-git'
+# url = 'https://stackoverflow.com/questions/927358/how-to-undo-the-most-recent-commits-in-git'
+# url = 'https://stackoverflow.com/questions/959215/how-do-i-remove-leading-whitespace-in-python?noredirect=1&lq=1'
+url = 'https://stackoverflow.com/questions/761804/how-do-i-trim-whitespace-from-a-python-string'
 
 html = urllib.request.urlopen(url)
 index = html.read().decode('utf-8')
