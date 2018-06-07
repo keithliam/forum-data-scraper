@@ -14,12 +14,23 @@ def extractString(contents):
 			string += item
 	return string
 
-# extract author from user-details class
-def extractAuthor(contents):
-	if contents.contents[1].name == 'a':
-		return contents.contents[1].string.strip()
+# get user-details class from question-class
+def getUserDetailsClass(questionClass):
+	if questionClass.find(attrs={'class':'owner'}) == None:
+		return questionClass.select('.user-info .user-details a:nth-of-type(2)')[0]
 	else:
-		return contents.contents[0].strip()
+		return questionClass.select('.owner .user-info .user-details')[0]
+
+# extract author from user-details class
+def extractAuthor(questionClass):
+	userDetailsClass = getUserDetailsClass(questionClass)
+	if len(userDetailsClass.contents) == 1:
+		return userDetailsClass.contents[0].strip()
+	elif userDetailsClass.contents[1].name == 'a':
+		return userDetailsClass.contents[1].string.strip()
+	else:
+		return userDetailsClass.contents[0].strip()
+
 
 url = 'https://stackoverflow.com/questions/927358/how-to-undo-the-most-recent-commits-in-git'
 
@@ -43,7 +54,7 @@ upvotes = soup.select('#question .vote-count-post')[0].string
 data['question']['upvotes'] = upvotes
 
 # extract question author
-author = extractAuthor(soup.select('#question .owner .user-info .user-details')[0])
+author = extractAuthor(soup.select('#question')[0])
 data['question']['author'] = author
 
 # extract answers
