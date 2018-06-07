@@ -27,3 +27,9 @@ data['question']['header'] = soup.find(id="question-header").h1.string
 
 contents = soup.select('#question .post-text')[0]
 data['question']['desc'] = extractString(contents).strip()
+
+answers = soup.select('.answer')
+for answer in answers:
+	contents = answer.select('.post-text')[0]
+	string = extractString(contents).strip()
+	data['answer'].append(string)
