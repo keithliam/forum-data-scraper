@@ -5,5 +5,5 @@ url = ''
 while url == '':
 	url = input('Enter stackoverflow page URL: ').strip()
 
-parser = StackoverflowParser(url)
+parser = PinoyGamerPhParser(url)
 outputJSONFile(parser.parse())
