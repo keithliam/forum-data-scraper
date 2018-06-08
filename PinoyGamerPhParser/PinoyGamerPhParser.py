@@ -34,8 +34,8 @@ class PinoyGamerPhParser:
 		del(messages[1])
 		return messages
 
-	def extractUser(self, messageList):
-		return messageList.find(class_='username').string
+	def extractUser(self, message):
+		return message.find(class_='username').string
 
 	def parse(self):
 		soup = self.getHTMLFile(self.url)
