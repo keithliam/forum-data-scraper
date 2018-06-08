@@ -81,6 +81,9 @@ def extractCommentUpvotes(commentTag):
 	else:
 		return 0
 
+def extractCommentAuthor(commentTag):
+	return extractString(commentTag.find(attrs={'class':'comment-user'}))
+
 def extractComments(mainTag):
 	comments = getCommentsList(mainTag)
 
@@ -89,6 +92,7 @@ def extractComments(mainTag):
 	for comment in comments:
 		commentData['comment'] = extractComment(comment)
 		commentData['upvotes'] = extractCommentUpvotes(comment)
+		commentData['author'] = extractCommentAuthor(comment)
 		commentList.append(copy.deepcopy(commentData))
 
 	return commentList
