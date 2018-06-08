@@ -62,7 +62,10 @@ class PinoyGamerPhParser:
 		return self.extractString(message.find(class_='messageText'))
 
 	def extractPostDate(self, message):
-		return message.find(class_='DateTime')['title']
+		if message.find(class_='DateTime').name == 'span':
+			return message.find(class_='DateTime')['title']
+		else:
+			return message.find(class_='DateTime')['data-datestring'] + ' at ' + message.find(class_='DateTime')['data-timestring']
 
 	def extractPosts(self, messages):
 		data = []
@@ -90,5 +93,6 @@ class PinoyGamerPhParser:
 		data['others']['title'] = self.extractForumTitle(soup)
 		data['others']['category'] = self.extractForumCategory(soup)
 		data['quotes'] = self.extractPosts(messages[1:])
+		print(data['quotes'])
 
 		return self.convertToJSON(data) 
