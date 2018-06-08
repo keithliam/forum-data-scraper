@@ -105,9 +105,9 @@ def extractComments(mainTag):
 
 	return commentList
 
-# url = 'https://stackoverflow.com/questions/927358/how-to-undo-the-most-recent-commits-in-git'
+url = 'https://stackoverflow.com/questions/927358/how-to-undo-the-most-recent-commits-in-git'
 # url = 'https://stackoverflow.com/questions/959215/how-do-i-remove-leading-whitespace-in-python?noredirect=1&lq=1'
-url = 'https://stackoverflow.com/questions/761804/how-do-i-trim-whitespace-from-a-python-string'
+# url = 'https://stackoverflow.com/questions/761804/how-do-i-trim-whitespace-from-a-python-string'
 
 html = urllib.request.urlopen(url)
 index = html.read().decode('utf-8')
@@ -135,3 +135,25 @@ for answer in answers:
 	answerData['editor'] = extractEditor(answer)
 	answerData['comments'] = extractComments(answer)
 	data['answer'].append(copy.deepcopy(answerData))
+
+# extract more answers if pagination is found
+nextPage = soup.find(attrs={'class':'page-numbers next'})
+while nextPage:
+	print(len(data['answer']))
+	nextPageURL = 'https://stackoverflow.com' + nextPage.parent['href']
+
+	html = urllib.request.urlopen(nextPageURL)
+	index = html.read().decode('utf-8')
+	soup = BeautifulSoup(index, "html.parser")
+
+	answers = soup.select('.answer')
+	for answer in answers:
+		answerData = {}
+		answerData['answer'] = extractPostBody(answer)
+		answerData['upvotes'] = extractUpvotes(answer)
+		answerData['author'] = extractAuthor(answer, isAnswer=True)
+		answerData['editor'] = extractEditor(answer)
+		answerData['comments'] = extractComments(answer)
+		data['answer'].append(copy.deepcopy(answerData))	
+
+	nextPage = soup.find(attrs={'class':'page-numbers next'})
