@@ -15,6 +15,10 @@ def extractString(contents):
 			string += item
 	return string
 
+# extract the question header
+def extractQuestionHeader(html):
+	return soup.find(id="question-header").h1.string
+
 # get user-details class from question-class
 def getAuthorUserDetailsClass(questionClass, isAnswer):
 	if isAnswer:
@@ -106,7 +110,7 @@ data['question'] = {}
 data['answer'] = []
 
 # extract question header
-data['question']['header'] = soup.find(id="question-header").h1.string
+data['question']['header'] = extractQuestionHeader(soup)
 
 # extract question description
 data['question']['desc'] = extractPostBody(soup.select('#question')[0])
@@ -138,6 +142,7 @@ for answer in answers:
 	answerData['editor'] = extractEditor(answer)
 
 	# comments extractor
-	answerData = list(extractComments(answer))
+	answerData['comments'] = extractComments(answer)
+	print(answerData['comments'])
 
 	data['answer'].append(copy.deepcopy(answerData))
