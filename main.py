@@ -3,6 +3,12 @@ from bs4.element import Tag
 import urllib.request
 import copy
 
+# fetch html file from url
+def getHTMLFile(url):
+	html = urllib.request.urlopen(url)
+	index = html.read().decode('utf-8')
+	return BeautifulSoup(index, "html.parser")
+
 # extract strings within a tag
 def extractString(contents):
 	string = ''
@@ -123,9 +129,7 @@ url = 'https://stackoverflow.com/questions/927358/how-to-undo-the-most-recent-co
 # url = 'https://stackoverflow.com/questions/959215/how-do-i-remove-leading-whitespace-in-python?noredirect=1&lq=1'
 # url = 'https://stackoverflow.com/questions/761804/how-do-i-trim-whitespace-from-a-python-string'
 
-html = urllib.request.urlopen(url)
-index = html.read().decode('utf-8')
-soup = BeautifulSoup(index, "html.parser")
+soup = getHTMLFile(url)
 
 # extract question
 data = {}
@@ -147,10 +151,7 @@ while nextPage:
 	print(len(data['answer']))
 	nextPageURL = 'https://stackoverflow.com' + nextPage.parent['href']
 
-	html = urllib.request.urlopen(nextPageURL)
-	index = html.read().decode('utf-8')
-	soup = BeautifulSoup(index, "html.parser")
-
+	soup = getHTMLFile(nextPageURL)
 	data['answer'] += extractAnswers(soup)
 
 	nextPage = soup.find(attrs={'class':'page-numbers next'})
