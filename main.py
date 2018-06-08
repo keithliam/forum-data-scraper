@@ -48,6 +48,10 @@ def getNameFromUserDetails(userDetailsClass):
 def extractUpvotes(mainTag):
 	return int(mainTag.find(attrs={'class':'vote-count-post'}).string)
 
+# extract number of favorites from question/answer main tag
+def extractFavorites(mainTag):
+	return int(mainTag.find(attrs={'class':'favoritecount'}).string)
+
 # extract author from user-details class
 def extractAuthor(questionClass, isAnswer=False):
 	userDetailsClass = getAuthorUserDetailsClass(questionClass, isAnswer)
@@ -116,6 +120,7 @@ data['answer'] = []
 data['question']['header'] = extractQuestionHeader(soup)
 data['question']['desc'] = extractPostBody(soup.select('#question')[0])
 data['question']['upvotes'] = extractUpvotes(soup.select('#question')[0])
+data['question']['favorites'] = extractFavorites(soup.select('#question')[0])
 data['question']['author'] = extractAuthor(soup.select('#question')[0])
 data['question']['editor'] = extractEditor(soup.select('#question')[0])
 data['question']['comments'] = extractComments(soup.select('#question')[0])
