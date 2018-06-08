@@ -79,6 +79,14 @@ class PinoyGamerPhParser:
 			data.append(dict(messageData))
 		return data
 
+	def getNextURL(self, soup):
+		navButtons = soup.find(class_='PageNav')
+		if navButtons:
+			navButtons = navButtons.nav.find_all('a')
+			return 'https://pinoygamer.ph/' + navButtons[len(navButtons) - 1]['href']
+		else:
+			return None
+
 	def parse(self):
 		soup = self.getHTMLFile(self.url)
 		
@@ -93,5 +101,7 @@ class PinoyGamerPhParser:
 		data['others']['title'] = self.extractForumTitle(soup)
 		data['others']['category'] = self.extractForumCategory(soup)
 		data['quotes'] = self.extractPosts(messages[1:])
+
+		nextURL = self.getNextURL(soup)
 
 		return self.convertToJSON(data) 
