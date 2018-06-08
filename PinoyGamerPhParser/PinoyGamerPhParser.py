@@ -50,7 +50,7 @@ class PinoyGamerPhParser:
 		elif len(extraInfo) == 3:
 			userData['gender'] = extraInfo[1].dd.string
 			userData['team'] = extraInfo[2].dd.string
-		return userData
+		return dict(userData)
 
 	def extractForumTitle(self, soup):
 		return soup.find(class_='titleBar').h1.string.strip()
