@@ -128,21 +128,9 @@ data['question']['editor'] = extractEditor(soup.select('#question')[0])
 answers = soup.select('.answer')
 for answer in answers:
 	answerData = {}
-
-	# answer message
 	answerData['answer'] = extractPostBody(answer)
-
-	# answer upvotes
 	answerData['upvotes'] = extractUpvotes(answer)
-
-	# answer author
 	answerData['author'] = extractAuthor(answer, isAnswer=True)
-
-	# answer editor
 	answerData['editor'] = extractEditor(answer)
-
-	# comments extractor
 	answerData['comments'] = extractComments(answer)
-	print(answerData['comments'])
-
 	data['answer'].append(copy.deepcopy(answerData))
