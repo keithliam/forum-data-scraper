@@ -106,12 +106,10 @@ contents = soup.select('#question .post-text')[0]
 data['question']['desc'] = extractString(contents).strip()
 
 # extract question upvotes
-upvotes = soup.select('#question .vote-count-post')[0].string
-data['question']['upvotes'] = int(upvotes)
+data['question']['upvotes'] = int(soup.select('#question .vote-count-post')[0].string)
 
 # extract question author
-author = extractAuthor(soup.select('#question')[0])
-data['question']['author'] = author
+data['question']['author'] = extractAuthor(soup.select('#question')[0])
 
 # extract question editor
 data['question']['editor'] = extractEditor(soup.select('#question')[0])
