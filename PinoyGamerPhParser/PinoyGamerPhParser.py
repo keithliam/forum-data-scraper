@@ -73,10 +73,10 @@ class PinoyGamerPhParser:
 		data = {}
 		data['others'] = {}
 		data['user_id'] = self.extractUser(messages[0])
+		data['message'] = self.extractMessageBody(messages[0])
+		data['date_posted'] = self.extractPostDate(messages[0])
 		data['others']['user_info'] = self.extractUserInfo(messages[0])
 		data['others']['title'] = self.extractForumTitle(soup)
 		data['others']['category'] = self.extractForumCategory(soup)
-		data['message'] = self.extractMessageBody(messages[0])
-		data['date_posted'] = self.extractPostDate(messages[0])
 
 		return self.convertToJSON(data)
