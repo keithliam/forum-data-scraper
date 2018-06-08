@@ -62,6 +62,9 @@ def extractEditor(questionClass):
 	else:
 		return None
 
+def extractPostBody(postTag):
+	return extractString(postTag.select('.post-text')[0]).strip()
+
 def getCommentsList(mainTag):
 	return mainTag.find_all(attrs={'class':'comment'})
 
@@ -106,8 +109,7 @@ data['answer'] = []
 data['question']['header'] = soup.find(id="question-header").h1.string
 
 # extract question description
-contents = soup.select('#question .post-text')[0]
-data['question']['desc'] = extractString(contents).strip()
+data['question']['desc'] = extractPostBody(soup.select('#question')[0])
 
 # extract question upvotes
 data['question']['upvotes'] = extractUpvotes(soup.select('#question')[0])
@@ -124,8 +126,7 @@ for answer in answers:
 	answerData = {}
 
 	# answer message
-	contents = answer.select('.post-text')[0]
-	answerData['answer'] = extractString(contents).strip()
+	answerData['answer'] = extractPostBody(answer)
 
 	# answer upvotes
 	answerData['upvotes'] = extractUpvotes(answer)
