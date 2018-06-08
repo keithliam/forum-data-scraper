@@ -19,6 +19,20 @@ def extractString(contents):
 def extractQuestionHeader(html):
 	return soup.find(id="question-header").h1.string
 
+# extract answers from page
+def extractAnswers(html):
+	allAnswers = []
+	answers = soup.select('.answer')
+	for answer in answers:
+		answerData = {}
+		answerData['answer'] = extractPostBody(answer)
+		answerData['upvotes'] = extractUpvotes(answer)
+		answerData['author'] = extractAuthor(answer, isAnswer=True)
+		answerData['editor'] = extractEditor(answer)
+		answerData['comments'] = extractComments(answer)
+		allAnswers.append(copy.deepcopy(answerData))
+	return allAnswers
+
 # get user-details class from question-class
 def getAuthorUserDetailsClass(questionClass, isAnswer):
 	if isAnswer:
@@ -116,7 +130,6 @@ soup = BeautifulSoup(index, "html.parser")
 # extract question
 data = {}
 data['question'] = {}
-data['answer'] = []
 data['question']['header'] = extractQuestionHeader(soup)
 data['question']['desc'] = extractPostBody(soup.select('#question')[0])
 data['question']['upvotes'] = extractUpvotes(soup.select('#question')[0])
@@ -126,15 +139,7 @@ data['question']['editor'] = extractEditor(soup.select('#question')[0])
 data['question']['comments'] = extractComments(soup.select('#question')[0])
 
 # extract answers
-answers = soup.select('.answer')
-for answer in answers:
-	answerData = {}
-	answerData['answer'] = extractPostBody(answer)
-	answerData['upvotes'] = extractUpvotes(answer)
-	answerData['author'] = extractAuthor(answer, isAnswer=True)
-	answerData['editor'] = extractEditor(answer)
-	answerData['comments'] = extractComments(answer)
-	data['answer'].append(copy.deepcopy(answerData))
+data['answer'] = extractAnswers(soup)
 
 # extract more answers if pagination is found
 nextPage = soup.find(attrs={'class':'page-numbers next'})
@@ -146,14 +151,6 @@ while nextPage:
 	index = html.read().decode('utf-8')
 	soup = BeautifulSoup(index, "html.parser")
 
-	answers = soup.select('.answer')
-	for answer in answers:
-		answerData = {}
-		answerData['answer'] = extractPostBody(answer)
-		answerData['upvotes'] = extractUpvotes(answer)
-		answerData['author'] = extractAuthor(answer, isAnswer=True)
-		answerData['editor'] = extractEditor(answer)
-		answerData['comments'] = extractComments(answer)
-		data['answer'].append(copy.deepcopy(answerData))	
+	data['answer'] += extractAnswers(soup)
 
 	nextPage = soup.find(attrs={'class':'page-numbers next'})
