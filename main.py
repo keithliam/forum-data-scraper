@@ -148,9 +148,7 @@ data['answer'] = extractAnswers(soup)
 # extract more answers if pagination is found
 nextPage = soup.find(attrs={'class':'page-numbers next'})
 while nextPage:
-	nextPageURL = 'https://stackoverflow.com' + nextPage.parent['href']
-
-	soup = getHTMLFile(nextPageURL)
+	soup = getHTMLFile('https://stackoverflow.com' + nextPage.parent['href'])
 	data['answer'] += extractAnswers(soup)
 
 	nextPage = soup.find(attrs={'class':'page-numbers next'})
