@@ -87,12 +87,8 @@ def extractComments(mainTag):
 	commentList = []
 	commentData = {}
 	for comment in comments:
-		# comment body
 		commentData['comment'] = extractComment(comment)
-		
-		# upvotes
 		commentData['upvotes'] = extractCommentUpvotes(comment)
-
 		commentList.append(copy.deepcopy(commentData))
 
 	return commentList
