@@ -1,7 +1,6 @@
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 import urllib.request
-import copy
 import json
 
 class PinoyGamerPhParser:
@@ -65,6 +64,18 @@ class PinoyGamerPhParser:
 	def extractPostDate(self, message):
 		return message.find(class_='DateTime')['title']
 
+	def extractPosts(self, messages):
+		data = []
+		for message in messages:
+			messageData = {}
+			messageData['user_id'] = self.extractUser(message)
+			messageData['message'] = self.extractMessageBody(message)
+			messageData['others'] = {}
+			messageData['others']['date_posted'] = self.extractPostDate(message)
+			messageData['others']['user_info'] = self.extractUserInfo(message)
+			data.append(dict(messageData))
+		return data
+
 	def parse(self):
 		soup = self.getHTMLFile(self.url)
 		
@@ -78,5 +89,6 @@ class PinoyGamerPhParser:
 		data['others']['user_info'] = self.extractUserInfo(messages[0])
 		data['others']['title'] = self.extractForumTitle(soup)
 		data['others']['category'] = self.extractForumCategory(soup)
+		data['quotes'] = self.extractPosts(messages[1:])
 
-		return self.convertToJSON(data)
+		return self.convertToJSON(data) 
