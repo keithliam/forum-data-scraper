@@ -105,23 +105,14 @@ html = urllib.request.urlopen(url)
 index = html.read().decode('utf-8')
 soup = BeautifulSoup(index, "html.parser")
 
+# extract question
 data = {}
 data['question'] = {}
 data['answer'] = []
-
-# extract question header
 data['question']['header'] = extractQuestionHeader(soup)
-
-# extract question description
 data['question']['desc'] = extractPostBody(soup.select('#question')[0])
-
-# extract question upvotes
 data['question']['upvotes'] = extractUpvotes(soup.select('#question')[0])
-
-# extract question author
 data['question']['author'] = extractAuthor(soup.select('#question')[0])
-
-# extract question editor
 data['question']['editor'] = extractEditor(soup.select('#question')[0])
 
 # extract answers
