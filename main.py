@@ -64,14 +64,24 @@ def getCommentsList(mainTag):
 def extractComment(commentTag):
 	return extractString(commentTag.find(attrs={'class':'comment-copy'}))
 
+def extractCommentUpvotes(commentTag):
+	if commentTag.span['class'][0] == 'warm' or commentTag.span['class'][0] == 'hot' or commentTag.span['class'][0] == 'cool':
+		return int(commentTag.span.string)
+	else:
+		return 0
+
 def extractComments(mainTag):
 	comments = getCommentsList(mainTag)
-	# print(commen ts)
 
 	commentList = []
 	commentData = {}
 	for comment in comments:
+		# comment body
 		commentData['comment'] = extractComment(comment)
+		
+		# upvotes
+		commentData['upvotes'] = extractCommentUpvotes(comment)
+
 		commentList.append(copy.deepcopy(commentData))
 
 	return commentList
