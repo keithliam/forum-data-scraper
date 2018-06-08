@@ -39,6 +39,7 @@ class PinoyGamerPhParser:
 
 	def extractUserInfo(self, message):
 		userData = {}
+		userData['user_title'] = message.find(class_='userTitle').string
 		return userData
 
 	def parse(self):
