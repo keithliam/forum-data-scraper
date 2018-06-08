@@ -114,9 +114,7 @@ author = extractAuthor(soup.select('#question')[0])
 data['question']['author'] = author
 
 # extract question editor
-editor = extractEditor(soup.select('#question')[0])
-if editor != None:
-	data['question']['editor'] = editor
+data['question']['editor'] = extractEditor(soup.select('#question')[0])
 
 # extract answers
 answers = soup.select('.answer')
@@ -135,13 +133,10 @@ for answer in answers:
 	answerData['author'] = extractAuthor(answer, isAnswer=True)
 
 	# answer editor
-	editor = extractEditor(answer)
-	if not (editor is None):
-		answerData['editor'] = editor
+	answerData['editor'] = extractEditor(answer)
 
 	# comments extractor
 	comments = extractComments(answer)
-	if len(comments) > 0:
-		answerData = list(comments)
+	answerData = list(comments)
 
 	data['answer'].append(copy.deepcopy(answerData))
