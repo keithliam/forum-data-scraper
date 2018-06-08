@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 from bs4.element import Tag
 import urllib.request
 import copy
+import json
 
 class StackoverflowParser:
 	def __init__(self, url):
@@ -129,6 +130,9 @@ class StackoverflowParser:
 
 		return commentList
 
+	def convertToJSON(self, data):
+		return json.dumps(data)
+
 	def parse(self):
 		soup = self.getHTMLFile(self.url)
 
@@ -153,4 +157,4 @@ class StackoverflowParser:
 			data['answer'] += self.extractAnswers(soup)
 
 			nextPage = soup.find(attrs={'class':'page-numbers next'})
-		return data
+		return self.convertToJSON(data)
