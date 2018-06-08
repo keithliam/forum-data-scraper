@@ -58,8 +58,8 @@ def extractEditor(questionClass):
 		return None
 
 # url = 'https://stackoverflow.com/questions/927358/how-to-undo-the-most-recent-commits-in-git'
-url = 'https://stackoverflow.com/questions/959215/how-do-i-remove-leading-whitespace-in-python?noredirect=1&lq=1'
-# url = 'https://stackoverflow.com/questions/761804/how-do-i-trim-whitespace-from-a-python-string'
+# url = 'https://stackoverflow.com/questions/959215/how-do-i-remove-leading-whitespace-in-python?noredirect=1&lq=1'
+url = 'https://stackoverflow.com/questions/761804/how-do-i-trim-whitespace-from-a-python-string'
 
 html = urllib.request.urlopen(url)
 index = html.read().decode('utf-8')
@@ -92,29 +92,22 @@ if editor != None:
 # extract answers
 answers = soup.select('.answer')
 for answer in answers:
+	answerData = {}
+	comments = []
+
 	# answer message
 	contents = answer.select('.post-text')[0]
-	string = extractString(contents).strip()
+	answerData['answer'] = extractString(contents).strip()
 
 	# answer upvotes
-	upvotes = answer.select('.vote-count-post')[0].string
+	answerData['upvotes'] = int(answer.select('.vote-count-post')[0].string)
 
 	# answer author
-	author = extractAuthor(answer, isAnswer=True)
+	answerData['author'] = extractAuthor(answer, isAnswer=True)
 
 	# answer editor
 	editor = extractEditor(answer)
+	if not (editor is None):
+		answerData['editor'] = editor
 
-	if editor is None:
-		data['answer'].append({
-			'answer':	string,
-			'upvotes':	int(upvotes),
-			'author':	author
-		})
-	else:
-		data['answer'].append({
-			'answer':	string,
-			'upvotes':	int(upvotes),
-			'author':	author,
-			'editor': 	editor
-		})
+	data['answer'].append(dict(answerData))
