@@ -34,8 +34,8 @@ class PinoyGamerPhParser:
 		del(messages[1])
 		return messages
 
-	def extractAuthor(self, messageList):
-		return messageList[0].find(class_='username').string
+	def extractUser(self, messageList):
+		return messageList.find(class_='username').string
 
 	def parse(self):
 		soup = self.getHTMLFile(self.url)
@@ -43,6 +43,7 @@ class PinoyGamerPhParser:
 		messages = self.getMessages(soup)
 
 		data = {}
-		data['user_id'] = self.extractAuthor(messages)
-		
+		data['others'] = {}
+		data['user_id'] = self.extractUser(messages[0])
+
 		return self.convertToJSON(data)
