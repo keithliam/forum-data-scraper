@@ -29,5 +29,17 @@ class PinoyGamerPhParser:
 	def convertToJSON(self, data):
 		return json.dumps(data)
 
+	def getMessages(self, soup):
+		messages = soup.find_all(class_='message')
+		del(messages[1])
+		return messages
+
 	def parse(self):
-		# soup = self.getHTMLFile(self.url)
+		soup = self.getHTMLFile(self.url)
+		
+		messages = self.getMessages(soup)
+
+		data = {}
+		# data['user_id'] = extractAuthor(messages)
+		
+		return None
