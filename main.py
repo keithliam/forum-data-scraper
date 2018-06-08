@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 import urllib.request
+import copy
 
 # extract strings within a tag
 def extractString(contents):
@@ -110,4 +111,4 @@ for answer in answers:
 	if not (editor is None):
 		answerData['editor'] = editor
 
-	data['answer'].append(dict(answerData))
+	data['answer'].append(copy.deepcopy(answerData))
