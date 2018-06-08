@@ -42,6 +42,14 @@ class PinoyGamerPhParser:
 		userData['user_title'] = message.find(class_='userTitle').string
 		extraInfo = message.find(class_='extraUserInfo').find_all(class_='pairsJustified')
 		userData['no_of_topics'] = int(extraInfo[0].a.string)
+		if len(extraInfo) == 2:
+			if extraInfo[1].dt.string == 'Gender:':
+				userData['gender'] = extraInfo[1].dd.string
+			else:
+				userData['team'] = extraInfo[1].dd.string
+		elif len(extraInfo) == 3:
+			userData['gender'] = extraInfo[1].dd.string
+			userData['team'] = extraInfo[2].dd.string
 		return userData
 
 	def parse(self):
