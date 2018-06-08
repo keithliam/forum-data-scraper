@@ -62,6 +62,9 @@ class PinoyGamerPhParser:
 	def extractMessageBody(self, message):
 		return self.extractString(message.find(class_='messageText'))
 
+	def extractPostDate(self, message):
+		return message.find(class_='DateTime')['title']
+
 	def parse(self):
 		soup = self.getHTMLFile(self.url)
 		
@@ -74,5 +77,6 @@ class PinoyGamerPhParser:
 		data['others']['title'] = self.extractForumTitle(soup)
 		data['others']['category'] = self.extractForumCategory(soup)
 		data['message'] = self.extractMessageBody(messages[0])
+		data['date_posted'] = self.extractPostDate(messages[0])
 
 		return self.convertToJSON(data)
