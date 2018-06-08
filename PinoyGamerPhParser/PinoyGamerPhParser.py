@@ -21,7 +21,8 @@ class PinoyGamerPhParser:
 			if type(item) == Tag:
 				if item.name == 'p':
 					string += '\n'
-				string += self.extractString(item) 			
+				if not (item.has_attr('class') and item['class'][0] == 'quoteExpand'):
+					string += self.extractString(item) 			
 			else:
 				string += item
 		return string
@@ -58,6 +59,9 @@ class PinoyGamerPhParser:
 	def extractForumCategory(self, soup):
 		return soup.find(id='pageDescription').a.string.strip()
 
+	def extractMessageBody(self, message):
+		return self.extractString(message.find(class_='messageText'))
+
 	def parse(self):
 		soup = self.getHTMLFile(self.url)
 		
@@ -69,5 +73,6 @@ class PinoyGamerPhParser:
 		data['others']['user_info'] = self.extractUserInfo(messages[0])
 		data['others']['title'] = self.extractForumTitle(soup)
 		data['others']['category'] = self.extractForumCategory(soup)
+		data['message'] = self.extractMessageBody(messages[0])
 
 		return self.convertToJSON(data)
