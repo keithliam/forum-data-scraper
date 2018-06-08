@@ -122,7 +122,6 @@ data['question']['editor'] = extractEditor(soup.select('#question')[0])
 answers = soup.select('.answer')
 for answer in answers:
 	answerData = {}
-	comments = []
 
 	# answer message
 	contents = answer.select('.post-text')[0]
@@ -138,7 +137,6 @@ for answer in answers:
 	answerData['editor'] = extractEditor(answer)
 
 	# comments extractor
-	comments = extractComments(answer)
-	answerData = list(comments)
+	answerData = list(extractComments(answer))
 
 	data['answer'].append(copy.deepcopy(answerData))
