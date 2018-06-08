@@ -55,6 +55,9 @@ class PinoyGamerPhParser:
 	def extractForumTitle(self, soup):
 		return soup.find(class_='titleBar').h1.string.strip()
 
+	def extractForumCategory(self, soup):
+		return soup.find(id='pageDescription').a.string.strip()
+
 	def parse(self):
 		soup = self.getHTMLFile(self.url)
 		
@@ -65,5 +68,6 @@ class PinoyGamerPhParser:
 		data['user_id'] = self.extractUser(messages[0])
 		data['others']['user_info'] = self.extractUserInfo(messages[0])
 		data['others']['title'] = self.extractForumTitle(soup)
+		data['others']['category'] = self.extractForumCategory(soup)
 
 		return self.convertToJSON(data)
