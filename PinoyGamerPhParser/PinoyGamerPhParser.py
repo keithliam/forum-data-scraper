@@ -37,6 +37,10 @@ class PinoyGamerPhParser:
 	def extractUser(self, message):
 		return message.find(class_='username').string
 
+	def extractUserInfo(self, message):
+		userData = {}
+		return userData
+
 	def parse(self):
 		soup = self.getHTMLFile(self.url)
 		
@@ -45,5 +49,6 @@ class PinoyGamerPhParser:
 		data = {}
 		data['others'] = {}
 		data['user_id'] = self.extractUser(messages[0])
+		data['others']['user_info'] = self.extractUserInfo(messages[0])
 
 		return self.convertToJSON(data)
