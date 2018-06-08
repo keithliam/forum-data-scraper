@@ -1,4 +1,4 @@
 def outputJSONFile(data):
-	fp = open('output.json', 'w')
+	fp = open('spai_pinoygamerph_1.json', 'w')
 	fp.write(data)
 	fp.close()
