@@ -42,4 +42,4 @@ class PinoyGamerPhParser:
 		data = {}
 		# data['user_id'] = extractAuthor(messages)
 		
-		return None
+		return self.convertToJSON(data)
