@@ -40,6 +40,10 @@ def getNameFromUserDetails(userDetailsClass):
 	else:
 		return userDetailsClass.contents[0].strip()
 
+# extract upvotes from question/answer main tag
+def extractUpvotes(mainTag):
+	return int(mainTag.find(attrs={'class':'vote-count-post'}).string)
+
 # extract author from user-details class
 def extractAuthor(questionClass, isAnswer=False):
 	userDetailsClass = getAuthorUserDetailsClass(questionClass, isAnswer)
@@ -106,7 +110,7 @@ contents = soup.select('#question .post-text')[0]
 data['question']['desc'] = extractString(contents).strip()
 
 # extract question upvotes
-data['question']['upvotes'] = int(soup.select('#question .vote-count-post')[0].string)
+data['question']['upvotes'] = extractUpvotes(soup.select('#question')[0])
 
 # extract question author
 data['question']['author'] = extractAuthor(soup.select('#question')[0])
@@ -125,7 +129,7 @@ for answer in answers:
 	answerData['answer'] = extractString(contents).strip()
 
 	# answer upvotes
-	answerData['upvotes'] = int(answer.select('.vote-count-post')[0].string)
+	answerData['upvotes'] = extractUpvotes(answer)
 
 	# answer author
 	answerData['author'] = extractAuthor(answer, isAnswer=True)
