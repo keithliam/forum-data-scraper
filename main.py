@@ -58,6 +58,25 @@ def extractEditor(questionClass):
 	else:
 		return None
 
+def getCommentsList(mainTag):
+	return mainTag.find_all(attrs={'class':'comment'})
+
+def extractComment(commentTag):
+	return extractString(commentTag.find(attrs={'class':'comment-copy'}))
+
+def extractComments(mainTag):
+	comments = getCommentsList(mainTag)
+	# print(commen ts)
+
+	commentList = []
+	commentData = {}
+	for comment in comments:
+		commentData['comment'] = extractComment(comment)
+		print(commentData['comment'])
+		commentList.append(copy.deepcopy(commentData))
+
+	return commentList
+
 # url = 'https://stackoverflow.com/questions/927358/how-to-undo-the-most-recent-commits-in-git'
 # url = 'https://stackoverflow.com/questions/959215/how-do-i-remove-leading-whitespace-in-python?noredirect=1&lq=1'
 url = 'https://stackoverflow.com/questions/761804/how-do-i-trim-whitespace-from-a-python-string'
@@ -110,5 +129,10 @@ for answer in answers:
 	editor = extractEditor(answer)
 	if not (editor is None):
 		answerData['editor'] = editor
+
+	# comments extractor
+	comments = extractComments(answer)
+	if len(comments) > 0:
+		answerData = list(comments)
 
 	data['answer'].append(copy.deepcopy(answerData))
