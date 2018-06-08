@@ -110,6 +110,7 @@ data['question']['desc'] = extractPostBody(soup.select('#question')[0])
 data['question']['upvotes'] = extractUpvotes(soup.select('#question')[0])
 data['question']['author'] = extractAuthor(soup.select('#question')[0])
 data['question']['editor'] = extractEditor(soup.select('#question')[0])
+data['question']['comments'] = extractComments(soup.select('#question')[0]
 
 # extract answers
 answers = soup.select('.answer')
