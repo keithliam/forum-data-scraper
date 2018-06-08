@@ -93,6 +93,5 @@ class PinoyGamerPhParser:
 		data['others']['title'] = self.extractForumTitle(soup)
 		data['others']['category'] = self.extractForumCategory(soup)
 		data['quotes'] = self.extractPosts(messages[1:])
-		print(data['quotes'])
 
 		return self.convertToJSON(data) 
