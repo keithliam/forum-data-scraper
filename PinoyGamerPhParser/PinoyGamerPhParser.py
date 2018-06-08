@@ -42,7 +42,6 @@ class PinoyGamerPhParser:
 		userData['user_title'] = message.find(class_='userTitle').string
 		extraInfo = message.find(class_='extraUserInfo').find_all(class_='pairsJustified')
 		userData['no_of_topics'] = int(extraInfo[0].a.string)
-		print(userData['no_of_topics'])
 		return userData
 
 	def parse(self):
