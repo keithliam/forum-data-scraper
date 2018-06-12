@@ -3,7 +3,7 @@ from FileOutput import outputJSONFile
 
 url = ''
 while url == '':
-	url = input('Enter stackoverflow page URL: ').strip()
+	url = input('Enter pinoygamerph page URL: ').strip()
 
 parser = PinoyGamerPhParser(url)
 outputJSONFile(parser.parse())
