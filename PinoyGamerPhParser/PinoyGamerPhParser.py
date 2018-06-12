@@ -1,5 +1,7 @@
 from bs4 import BeautifulSoup
 from bs4.element import Tag
+from datetime import datetime
+import time
 import urllib.request
 import json
 
@@ -59,11 +61,15 @@ class PinoyGamerPhParser:
 	def extractMessageBody(self, message):
 		return self.extractString(message.find(class_='messageText')).strip()
 
+	def convertToUnixTimestamp(self, datetimeString):
+		dateTimeObject = datetime.strptime(datetimeString, '%b %d, %Y at %I:%M %p')
+		return time.mktime(dateTimeObject.timetuple())
+
 	def extractPostDate(self, message):
 		if message.find(class_='DateTime').name == 'span':
-			return message.find(class_='DateTime')['title']
+			return self.convertToUnixTimestamp(message.find(class_='DateTime')['title'])
 		else:
-			return message.find(class_='DateTime')['data-datestring'] + ' at ' + message.find(class_='DateTime')['data-timestring']
+			return self.convertToUnixTimestamp(message.find(class_='DateTime')['data-datestring'] + ' at ' + message.find(class_='DateTime')['data-timestring'])
 
 	def extractQuotedPost(self, message):
 		quote = message.find(class_='bbCodeBlock bbCodeQuote')
