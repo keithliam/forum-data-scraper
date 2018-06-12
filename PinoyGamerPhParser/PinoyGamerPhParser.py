@@ -65,6 +65,16 @@ class PinoyGamerPhParser:
 		else:
 			return message.find(class_='DateTime')['data-datestring'] + ' at ' + message.find(class_='DateTime')['data-timestring']
 
+	def extractQuotedPost(self, message):
+		quote = message.find(class_='bbCodeBlock bbCodeQuote')
+		if quote:
+			quoteData = {}
+			quoteData['user_id'] = self.extractString(quote.div)[:-9]
+			quoteData['message'] = quote.blockquote.div.string
+			return dict(quoteData)
+		else:
+			return None
+
 	def extractPosts(self, messages):
 		data = []
 		for message in messages:
@@ -74,6 +84,9 @@ class PinoyGamerPhParser:
 			messageData['others'] = {}
 			messageData['others']['date_posted'] = self.extractPostDate(message)
 			messageData['others']['user_info'] = self.extractUserInfo(message)
+			quotedPost = self.extractQuotedPost(message)
+			if quotedPost:
+				messageData['others']['quoted_post'] = quotedPost
 			data.append(dict(messageData))
 		return data
 
