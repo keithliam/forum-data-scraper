@@ -30,9 +30,7 @@ class PinoyGamerPhParser:
 		return json.dumps(data)
 
 	def getMessages(self, soup):
-		messages = soup.find_all(class_='message')
-		del(messages[1])
-		return messages
+		return soup.find_all(class_='message')
 
 	def extractUser(self, message):
 		return message.find(class_='username').string
@@ -83,14 +81,22 @@ class PinoyGamerPhParser:
 		navButtons = soup.find(class_='PageNav')
 		if navButtons:
 			navButtons = navButtons.nav.find_all('a')
-			return 'https://pinoygamer.ph/' + navButtons[len(navButtons) - 1]['href']
+			lastButton = navButtons[len(navButtons) - 1]
+			if lastButton.string == 'Next >':
+				return 'https://pinoygamer.ph/' + lastButton['href']
+			else:
+				return None
 		else:
 			return None
+
+	def extractNextPosts(self, soup):
+		return self.extractPosts(self.getMessages(soup))
 
 	def parse(self):
 		soup = self.getHTMLFile(self.url)
 		
 		messages = self.getMessages(soup)
+		del(messages[1])
 
 		data = {}
 		data['others'] = {}
@@ -103,5 +109,11 @@ class PinoyGamerPhParser:
 		data['quotes'] = self.extractPosts(messages[1:])
 
 		nextURL = self.getNextURL(soup)
+		while nextURL:
+			soup = self.getHTMLFile(nextURL)
+			data['quotes'] += self.extractNextPosts(soup)
+			nextURL = self.getNextURL(soup)
 
+
+		print(len(data['quotes']))
 		return self.convertToJSON(data) 
