@@ -114,6 +114,4 @@ class PinoyGamerPhParser:
 			data['quotes'] += self.extractNextPosts(soup)
 			nextURL = self.getNextURL(soup)
 
-
-		print(len(data['quotes']))
 		return self.convertToJSON(data) 
