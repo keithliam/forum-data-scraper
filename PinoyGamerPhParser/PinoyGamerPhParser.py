@@ -39,7 +39,7 @@ class PinoyGamerPhParser:
 		userData = {}
 		userData['user_title'] = message.find(class_='userTitle').string
 		extraInfo = message.find(class_='extraUserInfo').find_all(class_='pairsJustified')
-		userData['no_of_topics'] = int(extraInfo[0].a.string)
+		userData['no_of_topics'] = int(extraInfo[0].a.string.replace(',', ''))
 		if len(extraInfo) == 2:
 			if extraInfo[1].dt.string == 'Gender:':
 				userData['gender'] = extraInfo[1].dd.string
