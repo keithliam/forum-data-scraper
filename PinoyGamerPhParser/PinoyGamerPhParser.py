@@ -57,7 +57,7 @@ class PinoyGamerPhParser:
 		return soup.find(id='pageDescription').a.string.strip()
 
 	def extractMessageBody(self, message):
-		return self.extractString(message.find(class_='messageText'))
+		return self.extractString(message.find(class_='messageText')).strip()
 
 	def extractPostDate(self, message):
 		if message.find(class_='DateTime').name == 'span':
