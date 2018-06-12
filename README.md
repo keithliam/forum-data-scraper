@@ -1,2 +1,6 @@
-# stackoverflow-python-parser
-A Python parser that displays question and answers from a specified stackoverflow URL.
+# Forum Data Scraper
+A Python web scraper that outputs data from forums using BeautifulSoup.
+
+### Supported Forums
+* Stackoverflow
+* PinoyGamerPH
