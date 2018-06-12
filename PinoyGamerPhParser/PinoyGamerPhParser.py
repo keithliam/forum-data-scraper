@@ -70,7 +70,7 @@ class PinoyGamerPhParser:
 		if quote:
 			quoteData = {}
 			quoteData['user_id'] = self.extractString(quote.div)[:-9]
-			quoteData['message'] = quote.blockquote.div.string
+			quoteData['message'] = self.extractString(quote.blockquote.div).strip()
 			return dict(quoteData)
 		else:
 			return None
